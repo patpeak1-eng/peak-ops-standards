@@ -885,11 +885,12 @@ docs/skills/
 [ ] Install Node.js LTS from nodejs.org
     Verify: node --version (v20+), npm --version (v10+)
 
-[ ] Install Codex plugin via PowerShell
-    Run /codex:setup in interactive session
+[ ] Install Codex plugin via interactive Claude Desktop terminal
+    (run /codex:setup in a new Claude Code session, not PowerShell)
     Authenticate: patpeak1@gmail.com
     Confirm review gate DISABLED
-    Verify: /codex:review works in any Claude Code terminal
+    Note: /codex:review slash command not reliably available —
+    inline self-review is the documented standard. See Section 2.5.
 
 [ ] Create global ~/.claude/CLAUDE.md
     Paste Ponytail ruleset (Section 2.1)
