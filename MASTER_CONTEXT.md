@@ -306,25 +306,48 @@ Clear PWA service worker before Chrome MCP UI verification.
 ### 2.5 Codex Review Gate Protocol
 
 ```
-CODEX_REVIEW_RULE:
-Run /codex:review after every meaningful code change, before commit.
-This is non-negotiable — it is what catches bugs before production.
+CODEX_REVIEW_RULE (corrected — confirmed S83 Mission Control + Fitness Tracker S9):
+Before every commit, Claude Code performs a mandatory review pass.
+
+IMPORTANT: /codex:review as a slash command has been inconsistent across
+83+ sessions. The real quality gate is inline self-review. /codex:review
+is a bonus when available, not the foundation of the process.
+/codex:rescue is NOT a substitute for review — it solves problems,
+it does not audit code quality.
+
+PRIMARY METHOD — Inline self-review (standard in every terminal):
+Re-read the full diff. Check for:
+- Data loss risks (missing guards, early returns that skip writes)
+- Unhandled null or empty cases
+- Logic errors in conditionals
+- Dead imports or unused code left behind
+- Changed behavior in callers of modified functions
+- Syntax errors (run npm run build or py_compile equivalent)
+
+Rate findings:
+[P1] = Blocking — fix before commit, re-review after
+[P2] = Should fix — inline if under 5 min, log as task if complex
+[P3] = Informational — note in commit message, no action required
 
 MANDATORY GATE IN EVERY TERMINAL PROMPT:
 1. Run git diff on all modified files
 2. Output the full diff as plain text in the chat window
-3. Run /codex:review on modified files
-   If unavailable: inline self-review and document which method was used
-4. Report findings by severity:
-   [P1] = Blocking — fix before commit, re-review after
-   [P2] = Should fix — inline if under 5 min, log as task if complex
-   [P3] = Informational — note in commit message, no action required
-5. Output findings in chat and wait for coordinator confirmation
-6. Do not commit until coordinator sends: "Codex cleared, proceed with commit"
+3. Perform inline self-review against the checklist above
+4. Report findings by severity in the chat
+5. Wait for coordinator "Codex cleared, proceed with commit"
+6. Document in commit message:
+   "inline self-review: no findings"
+   "inline self-review: [P2] fixed inline — [description]"
+   "/codex:review: exit 0" (only when slash command actually ran)
 
-Never fabricate a review result. Never stall — use inline self-review fallback.
+OPTIONAL METHOD — /codex:review slash command:
+Use when the command is available and registered in the terminal.
+If it returns "command not found" — proceed with inline self-review.
+Do not stall. Unavailability is never a blocker.
+
+Never fabricate a review result.
 Never enable review gate mode (/codex:setup --enable-review-gate).
-/codex:adversarial-review = major architectural decisions only, not every commit.
+/codex:adversarial-review = major architectural decisions only.
 ```
 
 ---
@@ -637,14 +660,18 @@ WorkoutContext.jsx (Fitness Tracker) = HIGH zone, one terminal at a time only.
 Before every commit:
 1. git status --short — confirm only intended files dirty
 2. Syntax check all modified files (npm run build or node --check)
-3. Run /codex:review on all modified files
-   If unavailable: inline self-review, document which method used
+3. Perform inline self-review — re-read full diff, check for data loss,
+   null cases, logic errors, dead imports, changed caller behavior
 4. Output full diff as plain text in chat
-5. Wait for coordinator "Codex cleared, proceed with commit"
-6. git commit -m "type(scope): description" -- [explicit pathspec]
+5. Report findings at P1/P2/P3 severity
+6. Wait for coordinator "Codex cleared, proceed with commit"
+7. git commit -m "type(scope): description" -- [explicit pathspec]
+   Include in message: "inline self-review: no findings" or findings summary
    NEVER git add -A or bare git commit without pathspec
-7. git push origin HEAD:main (Fitness Tracker) or HEAD:master (Mission Control)
-8. Railway dashboard = ground truth for deploy confirmation
+8. git push origin HEAD:main (Fitness Tracker) or HEAD:master (Mission Control)
+9. Railway dashboard = ground truth for deploy confirmation
+Note: /codex:review slash command is optional bonus when available.
+Inline self-review is the real standard — it is what has run for 83+ sessions.
 ```
 
 ### Completion Report Block
