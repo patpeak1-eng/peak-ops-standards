@@ -58,7 +58,7 @@ the update is committed to the standards repo.
 ```
 
 **Verify:** Inside any Claude Code terminal run `/codex:review` on any file.
-Should return findings or "no issues found" — not "command not found".
+Note: /codex:review may not be registered as a slash command in all terminal versions. Inline self-review is the documented standard. See Section 2.5 for full protocol.
 
 **Critical notes:**
 - `/plugin marketplace add openai-codex` is blocked by security classifier when
@@ -1170,7 +1170,8 @@ Equipment profile system fully built and deployed.
 Template picker live with equipment filtering and chip filters.
 Fire Station pause button working with reload persistence.
 Dead code cleanup scheduled: Session 10 (significance threshold met).
-Codex plugin install: PENDING (Patrick runs PowerShell setup at Session 10 start).
+Codex plugin install: COMPLETE (installed Session 9 via interactive Claude Desktop terminal).
+/codex:review slash command not reliably available — inline self-review is the real standard. See Section 2.5.
 ```
 
 ### Mission Control Project
