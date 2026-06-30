@@ -1,6 +1,7 @@
 # PEAK OPS — MASTER OPERATING CONTEXT
 ## Unified Cross-Project Standard | Living Document
-### Sources: Mission Control (S1–S83) + Fitness Tracker (S1–S9) | Last Updated: 2026-06-29
+### Universal Standard — All Peak Ops Projects | Last Updated: 2026-06-30
+<!-- SCHEMA_VERSION: 2026-06-30.1 — increment on every commit to this file -->
 
 > This document is the single source of truth for all operating rules, guardrails,
 > plugins, and workflow patterns across every Peak Ops project. Paste it into the
@@ -1141,6 +1142,37 @@ This document should never be more than one session out of date.
 
 ---
 
+### Edit Zone Boundary
+
+```
+EDIT_ZONE_RULE: Sections 1–9 = UNIVERSAL. Apply identically to every project — Mission Control, Fitness Tracker, and all future projects. There is no per-project fork of universal rules.
+A session may edit Sections 1–9 ONLY when:
+
+* A pattern has been validated across at least one full session
+* It represents a genuine cross-project lesson, not a project-specific preference
+* Patrick has explicitly confirmed the change (see CONCURRENT_SESSION_RULE)
+Appendix = PROJECT-SPECIFIC. Each project owns its own Appendix subsection. A session working on Project A may edit Project A's Appendix freely. It must NEVER edit another project's Appendix subsection.
+Any session — regardless of which project it is running — reads Sections 1–9 identically. The universal rules are the same rules. There is no version of this document that is "the Mission Control version" or "the Fitness Tracker version." There is one document.
+```
+
+### Concurrent Session Protocol
+
+```
+CONCURRENT_SESSION_RULE: Multiple project sessions (e.g. Mission Control + Fitness Tracker) may be open simultaneously. To prevent silent rule conflicts:
+FOR APPENDIX EDITS (project-specific): Proceed autonomously. No cross-session check required. These changes only affect the owning project's subsection.
+FOR SECTIONS 1–9 EDITS (universal rules): Before committing, the session must:
+
+1. Re-fetch live MASTER_CONTEXT.md fresh — do not trust cached context
+2. Check SCHEMA_VERSION at top of file — if it changed since session start, re-read the affected sections before proceeding
+3. State the proposed change explicitly to Patrick: "This is a UNIVERSAL rule change — affects ALL projects — confirm before commit"
+4. Receive explicit Patrick confirmation before committing
+5. Increment SCHEMA_VERSION in the same commit
+Rationale: Appendix edits are scoped to one project and carry no cross-session risk. Universal rule changes are silent global changes that affect every future session of every project — they warrant one extra confirmation checkpoint.
+Universal rule changes should be rare. Sections 1–9 represent battle-tested patterns from 90+ combined sessions across projects. New additions should clear a high bar.
+```
+
+---
+
 ## APPENDIX — PROJECT-SPECIFIC REFERENCES
 
 ### Fitness Tracker Project
@@ -1187,5 +1219,6 @@ DUAL_PLATFORM_RULE: Claude Code owns backend Python, Codex Desktop owns frontend
 
 ---
 
-*Last updated: Session 9 (Fitness Tracker) / S83 (Mission Control) | 2026-06-29*
-*Next update due: Session 10 (Fitness Tracker) — after Codex install and cleanup pass*
+*Last updated: 2026-06-30 | MC S84 / FT S9 — added EDIT_ZONE_RULE,
+CONCURRENT_SESSION_RULE, SCHEMA_VERSION marker; header de-projectified*
+*Next update due: whenever a new cross-project rule is validated per EDIT_ZONE_RULE*
