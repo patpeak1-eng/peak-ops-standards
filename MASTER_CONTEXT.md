@@ -1,7 +1,7 @@
 # PEAK OPS — MASTER OPERATING CONTEXT
 ## Unified Cross-Project Standard | Living Document
 ### Universal Standard — All Peak Ops Projects | Last Updated: 2026-06-30
-<!-- SCHEMA_VERSION: 2026-06-30.1 — increment on every commit to this file -->
+<!-- SCHEMA_VERSION: 2026-06-30.2 — increment on every commit to this file -->
 
 > This document is the single source of truth for all operating rules, guardrails,
 > plugins, and workflow patterns across every Peak Ops project. Paste it into the
@@ -349,6 +349,16 @@ Do not stall. Unavailability is never a blocker.
 Never fabricate a review result.
 Never enable review gate mode (/codex:setup --enable-review-gate).
 /codex:adversarial-review = major architectural decisions only.
+
+IDLE-WAIT IS NEVER CORRECT:
+Terminals must never pause and wait for an external Codex process.
+"Codex cleared, proceed with commit" is coordinator language —
+it comes FROM Claude Chat TO the terminal after the coordinator
+reviews the diff. It is not a signal that an external tool ran.
+If a terminal is waiting for Codex output that is not appearing,
+that is a bug in behavior — proceed with inline self-review immediately.
+The commit gate is the coordinator's "Codex cleared" instruction,
+not the presence of any Codex tool output.
 ```
 
 ---
@@ -666,6 +676,10 @@ Before every commit:
 4. Output full diff as plain text in chat
 5. Report findings at P1/P2/P3 severity
 6. Wait for coordinator "Codex cleared, proceed with commit"
+   (This comes FROM Claude Chat. Do not wait for an external
+   Codex process. If no Codex output appears, proceed with
+   inline self-review and report findings — the coordinator
+   will review and clear.)
 7. git commit -m "type(scope): description" -- [explicit pathspec]
    Include in message: "inline self-review: no findings" or findings summary
    NEVER git add -A or bare git commit without pathspec
