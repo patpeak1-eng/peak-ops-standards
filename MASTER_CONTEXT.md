@@ -1197,14 +1197,33 @@ Pinned dependencies:
 No emojis anywhere in the app — use lucide-react icons or nothing.
 WorkoutContext.jsx = highest risk file, one terminal at a time only.
 
-Session 9 state (last completed session):
-Commits: 232fc4f, 620ae0d, c417171, 8abea2a, e969a15
-Equipment profile system fully built and deployed.
-Template picker live with equipment filtering and chip filters.
-Fire Station pause button working with reload persistence.
-Dead code cleanup scheduled: Session 10 (significance threshold met).
-Codex plugin install: COMPLETE (installed Session 9 via interactive Claude Desktop terminal).
-/codex:review slash command not reliably available — inline self-review is the real standard. See Section 2.5.
+Exercise library: 73 exercises total (not 70 — confirmed S10).
+Illustrations: 73 JPEGs in public/illustrations/, all live.
+Illustration generation platform: Codex Desktop (locked S10).
+
+Session 10 state (last completed session):
+Dead code cleanup: chore commit 39a4e3f (40 deletions, 3 files).
+ExerciseIllustration component: wired to 3 surfaces (library, pre-set detail, rest timer). SHA 714c195.
+Illustration pipeline completed: all 73 exercises illustrated.
+Generation: Codex Desktop (3-frame format, dark background, dark unbranded athletic wear, START/mid/END labels).
+Format: JPEG quality=85, max width 1400px, ~78KB avg.
+Storage: public/illustrations/[exercise_id].jpg
+WorkoutContext field: "illustration": "/illustrations/[id].jpg"
+Final illustration SHA: 96f7d7b
+Session 10 final SHA on main: 96f7d7b
+
+Illustration pipeline rules (standing — apply to all future exercises):
+- Generate in Codex Desktop using 3-frame format
+- Compress as JPEG quality=85 (never palette-quantized PNG)
+- Save to public/illustrations/ — never src/assets/
+- Target under 150KB per image (JPEG hits ~78KB avg at quality=85)
+- No visible apparel branding — plain unbranded athletic wear only
+- public/ serves files directly at runtime; src/assets/ requires Vite imports and does not scale for large image libraries
+
+Session 11 priorities (next session):
+1. Visual/UI design research sprint — second pass focused on visual design language (colors, typography, layout, card design, spacing). Use same multi-platform research method as S9 feature research. Synthesize into design brief before any terminal work.
+2. Settings sync to backend — user_preferences table, GET/PATCH /api/preferences endpoints, wire WorkoutContext persist useEffects to push to backend on change.
+3. Profile switch active workout race condition (P3, low priority) — useRef guard scoped to profile-change transitions.
 ```
 
 ### Mission Control Project
