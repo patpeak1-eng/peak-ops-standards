@@ -1,7 +1,7 @@
 # PEAK OPS — MASTER OPERATING CONTEXT
 ## Unified Cross-Project Standard | Living Document
 ### Universal Standard — All Peak Ops Projects | Last Updated: 2026-06-30
-<!-- SCHEMA_VERSION: 2026-06-30.2 — increment on every commit to this file -->
+<!-- SCHEMA_VERSION: 2026-06-30.3 — increment on every commit to this file -->
 
 > This document is the single source of truth for all operating rules, guardrails,
 > plugins, and workflow patterns across every Peak Ops project. Paste it into the
@@ -1020,6 +1020,19 @@ Never use git add -A on any project. Explicit pathspec only.
 ISOLATED WORKTREES:
 Use isolated detached worktrees for every commit.
 git add in shared checkout is unsafe — sibling terminals can sweep each others' staged files.
+```
+
+### Multi-Terminal Parallel Writes
+
+```
+PARALLEL_TERMINAL_APPEND_RULE:
+When multiple terminals append to the same file concurrently, whichever
+terminal commits first will bundle all other terminals' uncommitted appends
+into its commit. pathspec cannot prevent this for same-file appends.
+Solution: each terminal writes to its own temp file (e.g. docs/audit_t2.md,
+docs/audit_t3.md), coordinator merges sequentially into the target file,
+then commits the merge. Never rely on pathspec alone for same-file parallel
+writes.
 ```
 
 ### PWA and Browser
